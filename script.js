@@ -53,7 +53,7 @@ function filterPriority(list, priority) {
 let todaysTasks = filterDueDate(personalTodo, "today");
 let todaysMostImportant = filterPriority(todaysTasks, 1)
 
-console.log("Todays most important task: ".concat(todaysMostImportant.length > 0 ? todaysMostImportant[0].task[0].toUpperCase() + todaysMostImportant[0].task.slice(1, todaysMostImportant[0].task.length) : "There are no priority 1 tasks today"))
+//console.log("Todays most important task: ".concat(todaysMostImportant.length > 0 ? todaysMostImportant[0].task[0].toUpperCase() + todaysMostImportant[0].task.slice(1, todaysMostImportant[0].task.length) : "There are no priority 1 tasks today"))
 // console.log(filterDueDate(professionalTodo, "tomorrow"))
 
 
@@ -67,20 +67,20 @@ function encryptedMsg(msg){
 
 encryptedMsg("Encrypt this message for me, haha you'll never know what I'm saying")
 
-console.log(myEncryption);
+//console.log(myEncryption);
 
 const myDecodedMessage = myEncryption.split("").reverse().join("");
-console.log(myDecodedMessage);
+//console.log(myDecodedMessage);
 
 const myNewArr = [1, 4, 2, 5];
 const returnValue = myNewArr.splice(2, 1);
-console.log(returnValue, myNewArr)
+//console.log(returnValue, myNewArr)
 
 // PRIMITIVE
 let myFirstData = 1;
 let mySecondData = myFirstData;
 myFirstData++
-console.log(myFirstData, mySecondData)
+//console.log(myFirstData, mySecondData)
 
 // NON-PRIMITVE
 //Forskjellen ligger i at man refererer, ikke lagrer en ny uavhengig kopi som i primitve
@@ -256,3 +256,80 @@ const inventory = [
   //findProductIndex()
   //addProduct()
   removeProduct("flour", 1)
+
+
+  function generatePassword(lengthOfPassword) {
+    if (typeof lengthOfPassword === "number") {
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+      const largeCharReg = /[A-Z]/g;
+      const smallCharReg = /[a-z]/g;
+      const numberReg = /[\d]/g;
+      const symbolReg = /[\W]/g;
+  
+      const largeChars = characters.match(largeCharReg);
+      const smallChars = characters.match(smallCharReg);
+      const numbers = characters.match(numberReg);
+      const symbols = characters.match(symbolReg);
+  
+      const characterArray = [largeChars, smallChars, numbers, symbols];
+      let newPassword = '';
+  
+      for (let i = 0; i < lengthOfPassword; i++) {
+        let randomIndexZero = Math.floor(Math.random() * 4);
+        let randomIndexOne = Math.floor(Math.random() * characterArray[randomIndexZero].length);
+        newPassword += characterArray[randomIndexZero][randomIndexOne];
+      }
+      return newPassword;
+    } else {
+      return "Error: Not a number";
+    }
+  }
+
+  console.time("PasswordGeneration");
+  const password = generatePassword(8);
+  console.timeEnd("PasswordGeneration");
+  console.log(password)
+
+
+
+  function myOwnCalculator(num1, num2, action){
+    if(action === "add"){
+      return num1 + num2
+    } else if (action === "subtract") {
+      return num1 - num2
+    } else if (action === "divide"){
+      return num1 / num2
+    } else if (action === "multiply") {
+      return num1 * num2
+    } else {
+      return "Error: Invalid input"
+    }
+  }
+
+  console.log(myOwnCalculator(3, 5, "subtract"))
+
+const heading1 = document.querySelector("h1");
+const button = document.querySelectorAll("button").forEach((button) => button.addEventListener("click", handleClick) );
+const calculation = [];
+let typing; 
+
+function handleClick(event){
+  const input = event.target.value;
+  if(input === "+" || input === "/" || input === "-") {
+    heading1.innerHTML +=(input)
+    calculation.push(typing)
+    typing = null;
+    calculation.push(input)
+    console.log(`${typeof input} added to calculation. Entire calculation: ${calculation}`)
+  } else {
+    const numberInput = parseFloat(input)
+    heading1.innerHTML +=(numberInput)
+    typing += numberInput;
+    console.log(typeof numberInput)
+    console.log(`${typeof numberInput} added to calculation. Entire calculation: ${calculation}`)
+  }
+}
+
+
+
+  
