@@ -332,4 +332,71 @@ function handleClick(event){
 
 
 
-  
+const myMaterialShoppingCart = [
+  {
+    type: "30x48",
+    length: 300,
+    quantity: 4
+  },
+  {
+    type: "30x48",
+    length: 125,
+    quantity: 2
+  },
+  {
+    type: "30x48",
+    length: 25,
+    quantity: 8
+  }
+]
+
+const testPlank = {
+  type: "30x48",
+  length: 1028,
+  quantity: 1
+}
+
+//Bør legge til en type-sjekker også. 
+
+
+function isLongEnough(plank){
+  const plankLength = plank.length;
+  const filteredArray = myMaterialShoppingCart.filter(({length}) => length < plankLength)
+  if(filteredArray.length > 0) {
+    return true
+  }
+}
+
+function getAmountOfCuts(plank){
+  if(isLongEnough(plank)){
+    try {
+      let plankLength = plank.length;
+      const myCuts = []
+      myMaterialShoppingCart.map((material) => {
+        for(let i = 0; i < material.quantity; i++){
+          if(plankLength > material.length) {
+            myCuts.push({
+              length: material.length,
+              quantity: +1
+            })
+            plankLength -= material.length;
+          }
+        }
+      })
+      const returnMsg = [myCuts, `Leftover: ${plankLength}`]
+      return returnMsg;
+
+    } catch (error) {
+      
+    }
+  }
+}
+
+console.log(isLongEnough(testPlank))
+console.log(getAmountOfCuts(testPlank))
+
+
+console.log(myMaterialShoppingCart);
+
+
+
