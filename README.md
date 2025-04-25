@@ -30,7 +30,7 @@ Upcoming:
 
 I'm not putting up a screenshot of this. 
 
-![Screenshot](./public/screenshot.png)
+<!-- ![Screenshot](./public/screenshot.png) -->
 
 ---
 
