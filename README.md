@@ -37,8 +37,8 @@ I'm not putting up a screenshot of this.
 ## 📦 Folder structure
 
 freeCodeCamp/  
-    markdown-to-html-convertver/  
-        index.html  
-        styles.css  
-        script.js  
-    README.md
+-markdown-to-html-convertver/  
+--index.html  
+--styles.css  
+--script.js  
+-README.md
