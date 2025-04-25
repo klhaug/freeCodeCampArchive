@@ -22,7 +22,7 @@ Upcoming:
 - TypeScript or JavaScript
 - Tailwind CSS / styled-components
 - Sanity / CMS
-- Any other tools/libraries (e.g. Formik, Framer Motion, etc.)
+
 
 ---
 
@@ -36,10 +36,10 @@ I'm not putting up a screenshot of this.
 
 ## 📦 Folder structure
 
-freeCodeCamp/
-├── markdown-to-html-converter/
-│   ├── index.html
-│   ├── styles.css
-│   └── script.js
-└── README.md
+freeCodeCamp/<br>
+├── markdown-to-html-converter/<br>  
+│   ├── index.html<br>  
+│   ├── styles.css<br>  
+│   └── script.js<br>  
+└── README.md  
 
