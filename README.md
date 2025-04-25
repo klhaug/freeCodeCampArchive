@@ -38,7 +38,7 @@ I'm not putting up a screenshot of this.
 
 freeCodeCamp/  
 - markdown-to-html-convertver/  
- - index.html  
- - styles.css  
- - script.js  
+-  index.html  
+ -  styles.css  
+ -  script.js  
 - README.md
