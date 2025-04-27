@@ -2,64 +2,24 @@ const markdownInput = document.getElementById("markdown-input");
 const htmlOutput = document.getElementById("html-output");
 const preview = document.getElementById("preview");
 
-markdownInput.addEventListener("input", convertMarkDown)
+markdownInput.addEventListener("input", convertMarkdown)
 
-const h1Reg = /(?:^|\s)[#]{1}\s/i;
-const h2Reg = /(?:^|\s)[#]{2}\s/i;
-const h3Reg = /(?:^|\s)[#]{3}\s/i;
+//TODO -> Nå er du på riktig spor. Bare skriv resten av regexene, for så å legge inn en replace all på alt. Så kjør en code-review m. GPT. 
 
-const regexArray = [h1Reg, h2Reg, h3Reg];
-const markupArray = [
-  {
-    open: "<h1>",
-    close:"</h1>"
-  },
-  {
-    open: "<h2>",
-    close: "</h2>"
-  },
-  {
-    open: "<h3>",
-    close: "</h3>"
-  }
-];
+const h1Reg = /^ *#{1} (.+)/igm;
+const h2Reg = /^ *#{2} (.+)/igm;
+const h3Reg = /^ *#{3} (.+)/igm;
 
 
-//Checks if anythings matches the different regexes, if so, returns the index of the matched regex.
-function testRegex(input) {
-  let i;
-  const isMatch = regexArray.some((regex, index) => {
-    i = index;
-    return regex.test(input);
-    }
-  )
-  if(isMatch){
-    return i;
-  } else {
-    return "No match found"
-  }
-}
-
-
-function convertMarkDown(){
+function convertMarkdown(){
   const input = markdownInput.value
-  const regexNumber = testRegex(input);
+    .replaceAll(h1Reg, "<h1>$1</h1>")
+    .replaceAll(h2Reg, "<h2>$1</h2>")
+    .replaceAll(h3Reg, "<h3>$1</h3>")
+
 
   preview.innerHTML = input;
-  htmlOutput.textContent = input;
-  
-  //TODO: Find a solution to how to place the closing tag, and how to make it stay after a linebreak.
+  htmlOutput.innerText = input;
 
-  if(typeof regexNumber === "number"){
-    const replaceRegex = input.replace(regexArray[regexNumber], markupArray[regexNumber].open) + markupArray[regexNumber].close
-    preview.innerHTML = replaceRegex;
-    htmlOutput.textContent = replaceRegex;
-  }
+  return input;
 }
-
-
-
-
-//console.log(regex.test("# "))
-//console.log(convert("##"))
-//console.log(h1Reg.test("# "))
