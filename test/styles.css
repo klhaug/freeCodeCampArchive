@@ -1,0 +1,16 @@
+body {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.test-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.test-container:hover{
+    cursor: pointer;
+}
