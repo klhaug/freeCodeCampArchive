@@ -37,6 +37,7 @@ I'm not putting up a screenshot of this.
 ## 📦 Folder structure
 
 freeCodeCamp/  
+- calorie-counter
 - markdown-to-html-convertver/  
     - index.html  
     - styles.css  
