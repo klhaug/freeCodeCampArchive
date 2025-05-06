@@ -35,6 +35,20 @@ function validateProductCode(productcode) {
   } return false;
 }
 
+function validateQuantity(quantity){
+  if(quantity > 0){
+    return true;
+  } return false;
+}
+
+function validateComplaintGroup(complaintgroup){
+  const t = complaintgroup.getElementsByTagName("input");
+  for (const input of t){
+      if(input.checked){
+        return input.checked
+      }
+    }
+  }
 
 
 
@@ -44,10 +58,13 @@ function validateForm(){
     "full-name": validateName(fullName.value),
     "email": validateEmail(email.value),
     "order-no": validateOrder(orderNo.value),
-    "product-code": validateProductCode(productCode.value)
+    "product-code": validateProductCode(productCode.value), 
+    "quantity": validateQuantity(quantity.value),
+    "complaints-group": validateComplaintGroup(complaintGroup)
   }
-
   console.log(formObject);
 }
+
+
 
 submitBtn.addEventListener("click",validateForm)
