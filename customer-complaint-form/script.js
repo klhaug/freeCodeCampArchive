@@ -4,6 +4,9 @@ const orderNo = document.getElementById("order-no");
 const productCode = document.getElementById("product-code");
 const quantity = document.getElementById("quantity");
 const complaintGroup = document.getElementById("complaints-group");
+const complaintDescription = document.getElementById("complaint-description")
+const solutionsGroup = document.getElementById("solutions-group");
+const solutionsDescription = document.getElementById("solution-description");
 
 const submitBtn = document.getElementById("submit-btn")
 
@@ -43,12 +46,45 @@ function validateQuantity(quantity){
 
 function validateComplaintGroup(complaintgroup){
   const t = complaintgroup.getElementsByTagName("input");
+  let allCheckboxBooleans = [];
   for (const input of t){
       if(input.checked){
-        return input.checked
+        console.log(input)
+        if(input.value === "other" && complaintDescription.value.length >= 20){
+          allCheckboxBooleans.push(true);
+        } else if(input.value !== "other" && input.value !== "undefined") {
+          allCheckboxBooleans.push(true);
+        } else {
+          allCheckboxBooleans.push(false);
+        }
+      } else {
+        allCheckboxBooleans.push(false);
       }
     }
+
+  return allCheckboxBooleans.includes(true);
+}
+
+
+
+
+
+function validateSolutionsGroup(solutionsGroup, solutionsDescription){
+  const inputs = solutionsGroup.getElementsByTagName("input");
+  let isChecked = false;  
+  let isCheckedValue = ''
+
+  for (const input of inputs){
+    if(input.checked){
+      isChecked = true;
+      isCheckedValue = input.value;
+    } 
   }
+  return isChecked;
+}
+
+
+
 
 
 
@@ -60,9 +96,12 @@ function validateForm(){
     "order-no": validateOrder(orderNo.value),
     "product-code": validateProductCode(productCode.value), 
     "quantity": validateQuantity(quantity.value),
-    "complaints-group": validateComplaintGroup(complaintGroup)
+    "complaints-group": validateComplaintGroup(complaintGroup),
+    "complaint-description": complaintDescription.value.length >= 20 ? true : false,
+    "solutions-group": validateSolutionsGroup(solutionsGroup, solutionsDescription)
   }
   console.log(formObject);
+
 }
 
 
