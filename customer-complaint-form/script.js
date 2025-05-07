@@ -80,7 +80,16 @@ function validateSolutionsGroup(solutionsGroup, solutionsDescription){
       isCheckedValue = input.value;
     } 
   }
-  return isChecked;
+
+  const isOtherValid = isCheckedValue === "other" && solutionsDescription.value.length >= 20 ? true : false;
+
+  if(isChecked && isCheckedValue !== "other"){
+    return isChecked;
+  } else if(isOtherValid){
+    return isChecked;
+  } else {
+    return false;
+  }
 }
 
 
@@ -98,12 +107,26 @@ function validateForm(){
     "quantity": validateQuantity(quantity.value),
     "complaints-group": validateComplaintGroup(complaintGroup),
     "complaint-description": complaintDescription.value.length >= 20 ? true : false,
-    "solutions-group": validateSolutionsGroup(solutionsGroup, solutionsDescription)
+    "solutions-group": validateSolutionsGroup(solutionsGroup, solutionsDescription),
+    "solution-description": solutionsDescription.value.length >= 20 ? true : false,
   }
-  console.log(formObject);
+  return formObject;
 
 }
 
 
 
-submitBtn.addEventListener("click",validateForm)
+function isValid(object){
+
+  const objectAsString = JSON.stringify(object)
+  if(objectAsString.includes('false')){
+    return false;
+  } else {
+    return true;
+  }
+
+}
+
+
+
+submitBtn.addEventListener("click", () => console.log(validateForm()))
