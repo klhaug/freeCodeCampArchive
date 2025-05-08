@@ -147,11 +147,7 @@ function validateForm(){
 function isValid(object){
 
   const objectAsString = JSON.stringify(object)
-  if(objectAsString.includes('false')){
-    return false;
-  } else {
-    return true;
-  }
+  return objectAsString.includes('false')
 
 }
 
