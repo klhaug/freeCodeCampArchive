@@ -92,9 +92,36 @@ function validateSolutionsGroup(solutionsGroup, solutionsDescription){
   }
 }
 
+function validateSolutionDescription(solutionsGroup, solutionsDescription) {
+  const inputs = solutionsGroup.getElementsByTagName("input");
+  let isChecked = false;
+  let isCheckedValue = '';
+
+  for (const input of inputs){
+    if(input.checked){
+      isChecked = true;
+      isCheckedValue = input.value;
+      break;
+    }
+  };
+
+  if(!isChecked){
+    return true;
+  }
+
+  if(isCheckedValue !== "other"){
+    return true;
+  }
+  
+  const isOtherValid = solutionsDescription.value.length >= 20;
+  
+  return isOtherValid;
+
+}
 
 
 
+console.log(validateSolutionDescription(solutionsGroup, solutionsDescription))
 
 
 
@@ -108,11 +135,12 @@ function validateForm(){
     "complaints-group": validateComplaintGroup(complaintGroup),
     "complaint-description": complaintDescription.value.length >= 20 ? true : false,
     "solutions-group": validateSolutionsGroup(solutionsGroup, solutionsDescription),
-    "solution-description": solutionsDescription.value.length >= 20 ? true : false,
+    "solution-description": validateSolutionDescription(solutionsGroup, solutionsDescription)
   }
   return formObject;
 
 }
+
 
 
 
