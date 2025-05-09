@@ -17,12 +17,28 @@ function validateName(name) {
   return false;
 }
 
+fullName.addEventListener("change", (e) => {
+    if(validateName(e.target.value)){
+      fullName.style.borderColor = "green"
+    } else {
+      fullName.style.borderColor = "red";
+    }
+  }) 
+
 function validateEmail(email) {
   const emailRegex = /\w+[@]\w+[.]\w+/
   if(email.length > 0){
     return emailRegex.test(email)
   } return false;
 }
+
+email.addEventListener("change", (e) => {
+  if(validateEmail(e.target.value)){
+    email.style.borderColor = "green"
+  } else {
+    email.style.borderColor = "red"
+  }
+})
 
 function validateOrder(order) {
   if(order.length > 0) {
@@ -31,6 +47,14 @@ function validateOrder(order) {
   } return false;
 }
 
+orderNo.addEventListener("change", (e) => {
+  if(validateOrder(e.target.value)){
+    orderNo.style.borderColor = "green"
+  } else {
+    orderNo.style.borderColor = "red";
+  };
+})
+
 function validateProductCode(productcode) {
   if(productcode.length === 13) {
     const productRegex = /[a-z]{2}[0-9]{2}-[a-z]{1}[0-9]{3}-[a-z]{2}[0-9]{1}/i;
@@ -38,11 +62,27 @@ function validateProductCode(productcode) {
   } return false;
 }
 
+productCode.addEventListener("change", (e) => {
+  if(validateProductCode(e.target.value)){
+    productCode.style.borderColor = "green";
+  } else {
+    productCode.style.borderColor = "red";
+  }
+})
+
 function validateQuantity(quantity){
   if(quantity > 0){
     return true;
   } return false;
 }
+
+quantity.addEventListener("change", (e) => {
+  if(validateQuantity(e.target.value)){
+    quantity.style.borderColor = "green";
+  } else {
+    quantity.style.borderColor = "red";
+  }
+})
 
 function validateComplaintGroup(complaintgroup){
   const t = complaintgroup.getElementsByTagName("input");
@@ -64,6 +104,14 @@ function validateComplaintGroup(complaintgroup){
 
   return allCheckboxBooleans.includes(true);
 }
+
+complaintGroup.addEventListener("change", (e) => {
+  if(validateComplaintGroup(complaintGroup)){
+    complaintGroup.style.borderColor = "green";
+  } else {
+    complaintGroup.style.borderColor = "red";
+  }
+})
 
 
 
@@ -92,8 +140,8 @@ function validateSolutionsGroup(solutionsGroup, solutionsDescription){
   }
 }
 
-function validateSolutionDescription(solutionsGroup, solutionsDescription) {
-  const inputs = solutionsGroup.getElementsByTagName("input");
+function validateDescription(group, description) {
+  const inputs = group.getElementsByTagName("input");
   let isChecked = false;
   let isCheckedValue = '';
 
@@ -106,14 +154,15 @@ function validateSolutionDescription(solutionsGroup, solutionsDescription) {
   };
 
   if(!isChecked){
-    return true;
+    return false;
   }
+
 
   if(isCheckedValue !== "other"){
     return true;
   }
   
-  const isOtherValid = solutionsDescription.value.length >= 20;
+  const isOtherValid = description.value.length >= 20;
   
   return isOtherValid;
 
@@ -121,7 +170,7 @@ function validateSolutionDescription(solutionsGroup, solutionsDescription) {
 
 
 
-console.log(validateSolutionDescription(solutionsGroup, solutionsDescription))
+
 
 
 
@@ -133,9 +182,9 @@ function validateForm(){
     "product-code": validateProductCode(productCode.value), 
     "quantity": validateQuantity(quantity.value),
     "complaints-group": validateComplaintGroup(complaintGroup),
-    "complaint-description": complaintDescription.value.length >= 20 ? true : false,
+    "complaint-description": validateDescription(complaintGroup, complaintDescription),
     "solutions-group": validateSolutionsGroup(solutionsGroup, solutionsDescription),
-    "solution-description": validateSolutionDescription(solutionsGroup, solutionsDescription)
+    "solution-description": validateDescription(solutionsGroup, solutionsDescription),
   }
   return formObject;
 
@@ -144,13 +193,15 @@ function validateForm(){
 
 
 
-function isValid(object){
-
-  const objectAsString = JSON.stringify(object)
-  return objectAsString.includes('false')
-
+function isValid(validateForm){
+  const object = validateForm();
+  console.log(object)
+  return Object.values(object).every((value) => value === true)
 }
 
+console.log(isValid(validateForm))
 
 
-submitBtn.addEventListener("click", () => console.log(validateForm()))
+
+
+submitBtn.addEventListener("click", () => isValid(validateForm))
