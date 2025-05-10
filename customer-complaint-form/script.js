@@ -7,8 +7,10 @@ const complaintGroup = document.getElementById("complaints-group");
 const complaintDescription = document.getElementById("complaint-description")
 const solutionsGroup = document.getElementById("solutions-group");
 const solutionsDescription = document.getElementById("solution-description");
+const form = document.getElementById("form");
+const submitBtn = document.getElementById("submit-btn");
 
-const submitBtn = document.getElementById("submit-btn")
+//NAME: Validation and Eventlistener
 
 function validateName(name) {
   if (name.length > 0) {
@@ -25,6 +27,8 @@ fullName.addEventListener("change", (e) => {
     }
   }) 
 
+//EMAIL: Validation and Eventlistener
+
 function validateEmail(email) {
   const emailRegex = /\w+[@]\w+[.]\w+/
   if(email.length > 0){
@@ -39,6 +43,8 @@ email.addEventListener("change", (e) => {
     email.style.borderColor = "red"
   }
 })
+
+//ORDER: Validation and Eventlistener
 
 function validateOrder(order) {
   if(order.length > 0) {
@@ -55,6 +61,8 @@ orderNo.addEventListener("change", (e) => {
   };
 })
 
+//PRODUCT: Validation and Eventlistener
+
 function validateProductCode(productcode) {
   if(productcode.length === 13) {
     const productRegex = /[a-z]{2}[0-9]{2}-[a-z]{1}[0-9]{3}-[a-z]{2}[0-9]{1}/i;
@@ -70,6 +78,8 @@ productCode.addEventListener("change", (e) => {
   }
 })
 
+//QUANTITY: Validation and Eventlistener
+
 function validateQuantity(quantity){
   if(quantity > 0){
     return true;
@@ -84,12 +94,13 @@ quantity.addEventListener("change", (e) => {
   }
 })
 
+//COMPLAINTGROUP: Validation and EventlistenerS
+
 function validateComplaintGroup(complaintgroup){
   const t = complaintgroup.getElementsByTagName("input");
   let allCheckboxBooleans = [];
   for (const input of t){
       if(input.checked){
-        console.log(input)
         if(input.value === "other" && complaintDescription.value.length >= 20){
           allCheckboxBooleans.push(true);
         } else if(input.value !== "other" && input.value !== "undefined") {
@@ -113,9 +124,15 @@ complaintGroup.addEventListener("change", (e) => {
   }
 })
 
+complaintDescription.addEventListener('change', (e) => {
+    if(e.target.value.length >= 20){
+      complaintDescription.style.borderColor = "green"
+    } else {
+      complaintDescription.style.borderColor = "red"
+    }
+  })
 
-
-
+//SOLUTIONS: Validation and EventlistenerS
 
 function validateSolutionsGroup(solutionsGroup, solutionsDescription){
   const inputs = solutionsGroup.getElementsByTagName("input");
@@ -139,6 +156,24 @@ function validateSolutionsGroup(solutionsGroup, solutionsDescription){
     return false;
   }
 }
+
+solutionsGroup.addEventListener("change", (e) => {
+  if(validateSolutionsGroup(solutionsGroup, solutionsDescription)){
+    solutionsGroup.style.borderColor = "green";
+  } else {
+    solutionsGroup.style.borderColor = "red";
+  }
+})
+
+solutionsDescription.addEventListener('change', (e) => {
+    if(e.target.value.length >= 20){
+      solutionsDescription.style.borderColor = "green"
+    } else {
+      solutionsDescription.style.borderColor = "red"
+    }
+  })
+
+
 
 function validateDescription(group, description) {
   const inputs = group.getElementsByTagName("input");
@@ -193,15 +228,21 @@ function validateForm(){
 
 
 
-function isValid(validateForm){
-  const object = validateForm();
-  console.log(object)
-  return Object.values(object).every((value) => value === true)
+function isValid(result){
+  console.log(result);
+  return Object.values(result).every((value) => value === true)
 }
 
-console.log(isValid(validateForm))
 
 
 
-
-submitBtn.addEventListener("click", () => isValid(validateForm))
+form.addEventListener("submit", (e) => {
+  const validationResult = validateForm()
+  const valid = isValid(validationResult);
+  if(!valid){
+    e.preventDefault();
+    console.log("Error: Form submission prevented")
+  } else {
+    console.log("Form submission approved")
+  }
+  })
