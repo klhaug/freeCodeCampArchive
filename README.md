@@ -37,10 +37,33 @@ I'm not putting up a screenshot of this.
 ## 📦 Folder structure
 
 freeCodeCamp/  
-- fcc-authors-page
 - calorie-counter
+    - index.html  
+    - styles.css  
+    - script.js  
+- customer-complaint-form
+    - index.html  
+    - styles.css  
+    - script.js  
+- date-conversion-program
+    - index.html  
+    - styles.css  
+    - script.js  
+- fcc-authors-page
+    - index.html  
+    - styles.css  
+    - script.js  
 - markdown-to-html-convertver/  
     - index.html  
     - styles.css  
     - script.js  
+- music-player
+    - index.html  
+    - styles.css  
+    - script.js  
+- regex-sandbox
+    - index.html  
+    - styles.css  
+    - script.js  
+- test
 - README.md
