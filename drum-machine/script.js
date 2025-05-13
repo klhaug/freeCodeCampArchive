@@ -1,19 +1,30 @@
-const drumPads = document.querySelectorAll(".drum-pad").forEach((pad) => pad.addEventListener("click", playClip))
+const drumPads = document.querySelectorAll(".drum-pad");
+drumPads.forEach((pad) => pad.addEventListener("click", playClip))
+const display = document.getElementById("display");
+document.addEventListener("keydown", playClipOnKeyDown)
 
-const audio = new Audio();
+
 
 
 
 function playClip(e){
   const pad = e.target
-  console.log(pad)
   const audioElements = pad.getElementsByTagName("audio")
-  console.log(audioElements)
   for (const element of audioElements) {
-    const src = element.getAttribute("src")
-    console.log(src)
-    audio.src = src;
+    display.innerText = pad.id;
+    element.play()
   }
-  audio.play()
+}
+
+
+function playClipOnKeyDown(e){
+  let key = e.key
+  const regex = /[qweasdzxc]/i
+  if(regex.test(key)){
+      const audioElement = document.getElementById(key.toUpperCase())
+      audioElement.currentTime = 0;
+      display.innerText = audioElement.parentElement.id
+      audioElement.play()
+  }
 }
 
