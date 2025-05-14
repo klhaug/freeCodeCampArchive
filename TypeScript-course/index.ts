@@ -5,11 +5,12 @@ const menu = [
     {name: "Veggie", price: 9}
 ]
 
-let cashInRegister = 100;
-let nextOrderId = 1;
-const orderQuee = [];
 
-const addNewPizza = (pizzaObj) => menu.push(pizzaObj);
+let cashInRegister: number = 100;
+let nextOrderId: number = 1;
+const orderQuee: Array = [];
+
+const addNewPizza = (pizzaObj: Pizza) => menu.push(pizzaObj);
 const placeOrder = (pizzaName) => {
     const orderedPizza = menu.find((pizza) => pizza.name === pizzaName)
     if(!orderedPizza){
@@ -22,7 +23,7 @@ const placeOrder = (pizzaName) => {
     return orderObj
 }
 
-const completeOrder = (orderId) => {
+const completeOrder = (orderId: number) => {
     const selectedOrder = orderQuee.find((order) => order.orderId === orderId);
     selectedOrder.status = "completed";
     return selectedOrder;
@@ -33,10 +34,13 @@ addNewPizza({ name: "BBQ Chicken", cost: 12 });
 addNewPizza({ name: "Spicy Sausage", cost: 11 });
 
 placeOrder("BBQ Chicken");
-completeOrder(1);
+completeOrder("1");
 
 console.log("Menu", menu);
 console.log("Cash in register", cashInRegister);
 console.log("Order Queue", orderQuee);
 
-  
+let myName: string = "Kristian";
+let numberOfWheels: number = 4;
+let isStudent: boolean = false;
+
