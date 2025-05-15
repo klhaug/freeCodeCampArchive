@@ -3,6 +3,12 @@ type Pizza = {
     price: number;
 }
 
+type Order = {
+    orderId: number
+    pizza: Pizza
+    status: string
+}
+
 
 const menu = [
     {name: "Margherita", price: 8},
@@ -24,13 +30,17 @@ const placeOrder = (pizzaName: string) => {
         return;
     }
     cashInRegister += orderedPizza.price;
-    const orderObj = {pizza: orderedPizza, status: "ordered", orderId: nextOrderId++}
+    const orderObj: Order = {pizza: orderedPizza, status: "ordered", orderId: nextOrderId++}
     orderQuee.push(orderObj);
     return orderObj
 }
 
 const completeOrder = (orderId: number) => {
     const selectedOrder = orderQuee.find((order) => order.orderId === orderId);
+    if(!selectedOrder){
+        console.error(`${orderId} is not a valid order`)
+        return;
+    }
     selectedOrder.status = "completed";
     return selectedOrder;
 }
@@ -65,18 +75,13 @@ type Person = {
 	name: string
 	age: number
 	isStudent: boolean
-    address: Address
+    address?: Address
 }
 
 let person1: Person = {
     name: "Kristian",
     age: 28,
     isStudent: false,
-    address: {
-        street: "Rotvegen 2",
-        city: "Raufoss",
-        country: "Norway"
-    }
 }
 
 let person2: Person = {
