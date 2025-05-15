@@ -6,8 +6,9 @@ type Pizza = {
 type Order = {
     orderId: number
     pizza: Pizza
-    status: string
+    status: "ordered" | "completed"
 }
+
 
 
 const menu = [
@@ -20,7 +21,7 @@ const menu = [
 
 let cashInRegister: number = 100;
 let nextOrderId: number = 1;
-const orderQuee = [];
+const orderHistory: Order[] = [];
 
 const addNewPizza = (pizzaObj: Pizza) => menu.push(pizzaObj);
 const placeOrder = (pizzaName: string) => {
@@ -31,12 +32,12 @@ const placeOrder = (pizzaName: string) => {
     }
     cashInRegister += orderedPizza.price;
     const orderObj: Order = {pizza: orderedPizza, status: "ordered", orderId: nextOrderId++}
-    orderQuee.push(orderObj);
+    orderHistory.push(orderObj);
     return orderObj
 }
 
 const completeOrder = (orderId: number) => {
-    const selectedOrder = orderQuee.find((order) => order.orderId === orderId);
+    const selectedOrder = orderHistory.find((order) => order.orderId === orderId);
     if(!selectedOrder){
         console.error(`${orderId} is not a valid order`)
         return;
@@ -54,7 +55,7 @@ completeOrder(1);
 
 console.log("Menu", menu);
 console.log("Cash in register", cashInRegister);
-console.log("Order Queue", orderQuee);
+console.log("Order Queue", orderHistory);
 
 
 
@@ -62,8 +63,18 @@ console.log("Order Queue", orderQuee);
 // NOT PART OF APP
 
 let myName: string = "Kristian";
+const myName2 = "Bob"
+
+type User = {
+    username: string
+    role: "guest" | "member" | "admin"
+}
+type UserRole = "guest" | "member" | "admin"
+let userRole: UserRole = "admin"
+
 let numberOfWheels: number = 4;
 let isStudent: boolean = false;
+let ages: number[]  = [100, 101]
 
 type Address =  {
     street: string
@@ -95,3 +106,4 @@ let person2: Person = {
     }
 }
 
+let people: Person[] = [person1, person2];
