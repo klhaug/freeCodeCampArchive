@@ -12,26 +12,27 @@ type Order = {
     status: "ordered" | "completed"
 }
 
-const menu: Pizza[] = [
-    {id: 1, name: "Margherita", price: 8},
-    {id: 2, name: "Pepperoni", price: 10},
-    {id: 3, name: "Hawaiian", price: 10},
-    {id: 4, name: "Veggie", price: 9}
-]
-
-
 let cashInRegister: number = 100;
 let nextOrderId: number = 1;
+let id: number = 1
 const orderHistory: Order[] = [];
+
+const menu: Pizza[] = [
+    {id: id++, name: "Margherita", price: 8},
+    {id: id++, name: "Pepperoni", price: 10},
+    {id: id++, name: "Hawaiian", price: 10},
+    {id: id++, name: "Veggie", price: 9}
+]
 
 // TYPES END 🔴
 
 // FUNCTIONS 🟢
 
-function addNewPizza(pizzaObj: Pizza) {
-    return menu.push(pizzaObj);
+function addNewPizza(pizzaObj: Pizza): void {
+    pizzaObj.id = id++
+    menu.push(pizzaObj);
 }
-function placeOrder(pizzaName: string) {
+function placeOrder(pizzaName: string): Order | undefined {
     const orderedPizza = menu.find((pizza) => pizza.name === pizzaName);
     if (!orderedPizza) {
         console.error(`${pizzaName} does not exist in the menu`);
@@ -42,7 +43,7 @@ function placeOrder(pizzaName: string) {
     orderHistory.push(orderObj);
     return orderObj;
 }
-function completeOrder(orderId: number) {
+function completeOrder(orderId: number): Order | undefined {
     const selectedOrder = orderHistory.find((order) => order.orderId === orderId);
     if (!selectedOrder) {
         console.error(`${orderId} is not a valid order`);
@@ -64,17 +65,17 @@ function getPizzaDetail(pizzaIdentifier: string | number ): Pizza | undefined {
 // FUNCTIONS END 🔴
 
 
-addNewPizza({ id: 5, name: "Chicken Bacon Ranch", price: 12 });
-addNewPizza({ id: 6, name: "BBQ Chicken", price: 12 });
-addNewPizza({ id: 7, name: "Spicy Sausage", price: 11 });
+addNewPizza({name: "Chicken Bacon Ranch", price: 12 });
+addNewPizza({name: "BBQ Chicken", price: 12 });
+addNewPizza({name: "Spicy Sausage", price: 11 });
 
 placeOrder("BBQ Chicken");
 completeOrder(1);
 
-console.log(getPizzaDetail(2))
+// console.log(getPizzaDetail(2))
 console.log("Menu", menu);
-console.log("Cash in register", cashInRegister);
-console.log("Order Queue", orderHistory);
+// console.log("Cash in register", cashInRegister);
+// console.log("Order Queue", orderHistory);
 
 
 
@@ -122,6 +123,7 @@ let people: Person[] = [person1, person2];
 
 
 type User = {
+    id: number;
     username: string
     role: UserRole;
 }
@@ -129,14 +131,17 @@ type UserRole = "guest" | "member" | "admin";
 
 const users: User[] = [
     {
+        id: 1,
         username: "Kristian",
         role: "admin"
     },
     {
+        id: 2,
         username: "Anniken",
         role: "guest"
     },
     {
+        id: 3,
         username: "Louis",
         role: "member"
     }
@@ -150,4 +155,20 @@ function fetchuserDetails(username: string): User {
     } 
     return user;
 }
+
+function updateUser(id: number, updates: any){
+    const user = users.find((user) => user.id === id)
+    console.log(user)
+    const returned = Object.assign(user, updates)
+    return = returned={}
+
+}
+
+updateUser(1, {username: "new_john_doe"});
+updateUser(4, {username: "new_john_doe"});
+
+
+
+console.log(users)
+
 
