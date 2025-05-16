@@ -54,11 +54,13 @@ addNewPizza({ id: 7, name: "Spicy Sausage", price: 11 });
 placeOrder("BBQ Chicken");
 completeOrder(1);
 
-function getPizzaDetail(pizzaIdentifier: string | number ){
+export function getPizzaDetail(pizzaIdentifier: string | number ){
     if(typeof pizzaIdentifier === "string") {
         return menu.find((pizza) => pizza.name === pizzaIdentifier)
-    } else if( typeof pizzaIdentifier === "number") {
+    } else if ( typeof pizzaIdentifier === "number") {
         return menu.find((pizza) => pizza.id === pizzaIdentifier)
+    } else {
+        throw new TypeError("Parameter 'identifier' must be either a string or a number")
     }
 }
 
@@ -75,13 +77,6 @@ console.log("Order Queue", orderHistory);
 
 let myName: string = "Kristian";
 const myName2 = "Bob"
-
-type User = {
-    username: string
-    role: "guest" | "member" | "admin"
-}
-type UserRole = "guest" | "member" | "admin"
-let userRole: UserRole = "admin"
 
 let numberOfWheels: number = 4;
 let isStudent: boolean = false;
@@ -118,3 +113,34 @@ let person2: Person = {
 }
 
 let people: Person[] = [person1, person2];
+
+
+type User = {
+    username: string
+    role: UserRole;
+}
+type UserRole = "guest" | "member" | "admin";
+
+const users: User[] = [
+    {
+        username: "Kristian",
+        role: "admin"
+    },
+    {
+        username: "Anniken",
+        role: "guest"
+    },
+    {
+        username: "Louis",
+        role: "member"
+    }
+]
+
+
+function fetchuserDetails(username: string) {
+    const user = users.find((user) => user.username === username)
+    if(!user){
+        throw new Error(`User with username ${username} not found`)
+    } 
+    return user;
+}
