@@ -1,3 +1,5 @@
+// TYPES 🟢
+
 type Pizza = {
     id: number;
     name: string;
@@ -9,8 +11,6 @@ type Order = {
     pizza: Pizza
     status: "ordered" | "completed"
 }
-
-
 
 const menu: Pizza[] = [
     {id: 1, name: "Margherita", price: 8},
@@ -24,37 +24,34 @@ let cashInRegister: number = 100;
 let nextOrderId: number = 1;
 const orderHistory: Order[] = [];
 
-const addNewPizza = (pizzaObj: Pizza) => menu.push(pizzaObj);
-const placeOrder = (pizzaName: string) => {
-    const orderedPizza = menu.find((pizza) => pizza.name === pizzaName)
-    if(!orderedPizza){
+// TYPES END 🔴
+
+// FUNCTIONS 🟢
+
+function addNewPizza(pizzaObj: Pizza) {
+    return menu.push(pizzaObj);
+}
+function placeOrder(pizzaName: string) {
+    const orderedPizza = menu.find((pizza) => pizza.name === pizzaName);
+    if (!orderedPizza) {
         console.error(`${pizzaName} does not exist in the menu`);
         return;
     }
     cashInRegister += orderedPizza.price;
-    const orderObj: Order = {pizza: orderedPizza, status: "ordered", orderId: nextOrderId++}
+    const orderObj: Order = { pizza: orderedPizza, status: "ordered", orderId: nextOrderId++ };
     orderHistory.push(orderObj);
-    return orderObj
+    return orderObj;
 }
-
-const completeOrder = (orderId: number) => {
+function completeOrder(orderId: number) {
     const selectedOrder = orderHistory.find((order) => order.orderId === orderId);
-    if(!selectedOrder){
-        console.error(`${orderId} is not a valid order`)
+    if (!selectedOrder) {
+        console.error(`${orderId} is not a valid order`);
         return;
     }
     selectedOrder.status = "completed";
     return selectedOrder;
 }
-
-addNewPizza({ id: 5, name: "Chicken Bacon Ranch", price: 12 });
-addNewPizza({ id: 6, name: "BBQ Chicken", price: 12 });
-addNewPizza({ id: 7, name: "Spicy Sausage", price: 11 });
-
-placeOrder("BBQ Chicken");
-completeOrder(1);
-
-export function getPizzaDetail(pizzaIdentifier: string | number ){
+function getPizzaDetail(pizzaIdentifier: string | number ): Pizza | undefined {
     if(typeof pizzaIdentifier === "string") {
         return menu.find((pizza) => pizza.name === pizzaIdentifier)
     } else if ( typeof pizzaIdentifier === "number") {
@@ -64,8 +61,17 @@ export function getPizzaDetail(pizzaIdentifier: string | number ){
     }
 }
 
-console.log(getPizzaDetail(2))
+// FUNCTIONS END 🔴
 
+
+addNewPizza({ id: 5, name: "Chicken Bacon Ranch", price: 12 });
+addNewPizza({ id: 6, name: "BBQ Chicken", price: 12 });
+addNewPizza({ id: 7, name: "Spicy Sausage", price: 11 });
+
+placeOrder("BBQ Chicken");
+completeOrder(1);
+
+console.log(getPizzaDetail(2))
 console.log("Menu", menu);
 console.log("Cash in register", cashInRegister);
 console.log("Order Queue", orderHistory);
@@ -137,10 +143,11 @@ const users: User[] = [
 ]
 
 
-function fetchuserDetails(username: string) {
+function fetchuserDetails(username: string): User {
     const user = users.find((user) => user.username === username)
     if(!user){
         throw new Error(`User with username ${username} not found`)
     } 
     return user;
 }
+
