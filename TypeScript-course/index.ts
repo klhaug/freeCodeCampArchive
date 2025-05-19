@@ -28,12 +28,13 @@ const menu: Pizza[] = [
 
 // FUNCTIONS 🟢
 
-function addNewPizza(pizzaObj: Omit<Pizza, "id">): void {
+function addNewPizza(pizzaObj: Omit<Pizza, "id">): Pizza {
     const pizza = {
         id: id++,
         ...pizzaObj
     }
     menu.push(pizza);
+    return pizza;
 }
 function placeOrder(pizzaName: string): Order | undefined {
     const orderedPizza = menu.find((pizza) => pizza.name === pizzaName);
@@ -192,7 +193,23 @@ addNewUser({username: "joe_schmoe", role: "member"})
 console.log("Users updated", users);
 
 
+const gamescores = [14, 21, 32, 1, 32, 49];
+const favoriteTheings = ["raindrops on roses", "whiskers on kittens", "bright copper kettles", "warm woolen mittens"];
+const voters = [{name: "Alice", age: 42}, {name: "Bob", age: 77}]
+
+function getLastItem<PlaceholderType>(array: PlaceholderType[]): PlaceholderType | undefined {
+    return array[array.length - 1];
+}
+
+console.log(getLastItem(gamescores))
+console.log(getLastItem(favoriteTheings))
+console.log(getLastItem(voters))
 
 
+function addToArray<T>(array: T[], item: T): T[] {
+    array.push(item);
+    return array
+}
 
-
+addToArray<Pizza>(menu, {id: id++, name: "Chicken Bacon Ranch", price: 12});
+addToArray<Order>(orderHistory, {orderId: id++, pizza: menu[2], status: "completed"});
