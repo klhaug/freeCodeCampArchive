@@ -28,9 +28,12 @@ const menu: Pizza[] = [
 
 // FUNCTIONS 🟢
 
-function addNewPizza(pizzaObj: Pizza): void {
-    pizzaObj.id = id++
-    menu.push(pizzaObj);
+function addNewPizza(pizzaObj: Omit<Pizza, "id">): void {
+    const pizza = {
+        id: id++,
+        ...pizzaObj
+    }
+    menu.push(pizza);
 }
 function placeOrder(pizzaName: string): Order | undefined {
     const orderedPizza = menu.find((pizza) => pizza.name === pizzaName);
@@ -144,8 +147,16 @@ const users: User[] = [
         id: 3,
         username: "Louis",
         role: "member"
+    },
+    {
+        id: 4,
+        username: "Bebi",
+        role: "guest"
     }
 ]
+
+type UpdateUser = Partial<User>
+type NewUser = Omit<User, "id">
 
 
 function fetchuserDetails(username: string): User {
@@ -156,19 +167,32 @@ function fetchuserDetails(username: string): User {
     return user;
 }
 
-function updateUser(id: number, updates: any){
+function updateUser(id: number, updates: UpdateUser){
     const user = users.find((user) => user.id === id)
-    console.log(user)
-    const returned = Object.assign(user, updates)
-    return = returned={}
-
+    if(user){
+        Object.assign(user, updates)
+    } else {
+        throw new Error(`User with id ${id} does not exist.`)
+    }
 }
 
+function addNewUser(newUser: NewUser): User {
+    const user: User = {id: 5, ...newUser}
+    users.push(user)
+    return user;
+}
+
+
+console.log("Users", users)
+
 updateUser(1, {username: "new_john_doe"});
-updateUser(4, {username: "new_john_doe"});
+updateUser(4, {role: "member"});
+addNewUser({username: "joe_schmoe", role: "member"})
+
+console.log("Users updated", users);
 
 
 
-console.log(users)
+
 
 
