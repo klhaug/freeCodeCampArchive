@@ -1,0 +1,65 @@
+** start of script.js **
+
+const projectStatus = {
+  PENDING: {
+    description: "Pending Execution"
+  },
+  SUCCESS: {
+    description: "Executed Successfully"
+  },
+  FAILURE: {
+    description: "Execution Failed"
+  },
+}
+
+class ProjectIdea {
+  constructor(title, description) {
+    this.title = title 
+    this.description = description
+    this.status = projectStatus.PENDING
+  }
+
+  updateProjectStatus (newStatus){
+    this.status = newStatus
+  } 
+}
+
+class ProjectIdeaBoard {
+  constructor(title) {
+    this.title = title;
+    this.ideas = [];
+  }
+
+  pin(ProjectIdea) {
+    this.ideas.push(ProjectIdea)
+  }
+
+  unpin(ProjectIdea){
+    const ideaIndex = this.ideas.findIndex((item) => item.title === ProjectIdea.title)
+    this.ideas.splice(ideaIndex, 1)
+  }
+
+  count(){
+    return this.ideas.length
+  }
+
+  formatToString(){
+    let returnMsg = `${this.title} has ${this.count()} idea(s)\n`;
+    this.ideas.forEach((item) => returnMsg += `${item.title} (${item.status.description}) - ${item.description}\n`);
+    return returnMsg;
+  }
+}
+
+const emptyBoard = new ProjectIdeaBoard("Empty Board");
+console.log(emptyBoard.formatToString())
+
+const smartHomeSystem = new ProjectIdea("Smart Home System", "An integrated system to control lighting, temperature, and security devices remotely.");
+const techProjects = new ProjectIdeaBoard("Tech Projects Board")
+
+techProjects.pin(smartHomeSystem)
+
+console.log(techProjects.formatToString());
+
+
+** end of script.js **
+
