@@ -1,0 +1,211 @@
+** start of index.html **
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Currency Converter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.development.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.development.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.5/babel.min.js"></script>
+    <script
+      data-plugins="transform-modules-umd"
+      type="text/babel"
+      src="index.jsx"
+    ></script>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div id="root"></div>
+    <script
+      data-plugins="transform-modules-umd"
+      type="text/babel"
+      data-presets="react"
+      data-type="module"
+    >
+      import { CurrencyConverter } from './index.jsx';
+      ReactDOM.createRoot(document.getElementById('root')).render(<CurrencyConverter />);
+    </script>
+</body>
+
+</html>
+
+** end of index.html **
+
+** start of styles.css **
+
+html {
+  height: 100%;
+  font-family: Avenir;
+}
+
+body {
+  height: 100%;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: #fdfdfd;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+header {
+  width: 50%;
+}
+
+h1 {
+  text-align: start;
+  text-transform: uppercase;
+  font-size:24px;
+}
+
+input {
+  padding: 8px;
+  border-radius: 0;
+  border: 1px solid lightgrey;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+  gap: 8px;
+}
+select{
+  width: 100%;
+  border-radius: 0;
+  border: 1px solid lightgrey;
+  padding: 8px;
+  margin-top: 4px;
+
+}
+
+.select-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.select-wrapper {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+}
+
+.results-container {
+  width: 50%;
+  margin: 0 auto;
+}
+
+button {
+  border-radius: 0;
+  border: none;
+  height: 44px;
+  margin-top: 8px;
+  font-size: 16px;
+  text-transform: uppercase;
+  background-color: lightgrey;
+  color: black;
+}
+
+button:hover {
+  cursor:pointer;
+  background-color: darkgrey;
+}
+
+** end of styles.css **
+
+** start of index.jsx **
+
+const { useState, useMemo } = React;
+
+function handleConvert(amount, convertFrom) {
+  const valueMapping = {
+    USD: 1,
+    EUR: 0.92,
+    GBP: 0.78,
+    JPY: 156.7
+};
+
+
+
+const calculatedValue = {
+  USD: valueMapping["USD"] / valueMapping[convertFrom] * amount,
+  EUR: valueMapping["EUR"] / valueMapping[convertFrom] * amount,
+  GBP: valueMapping["GBP"] / valueMapping[convertFrom] * amount,
+  JPY: valueMapping["JPY"] / valueMapping[convertFrom] * amount,
+}
+
+console.log("Im recalculating")
+
+return calculatedValue;
+
+
+
+  // const calculatedConversion = valueMapping[convertTo] / valueMapping[convertFrom] * amount;
+
+  // console.log(calculatedConversion)
+
+  // return calculatedConversion.toFixed(2);
+
+}
+
+
+
+export function CurrencyConverter() {
+  const [amount, setAmount] = useState(0);
+  const [convertFrom, setConvertFrom] = useState("USD")
+  const [convertTo, setConvertTo] = useState("JPY")
+  const convertedCurrency = useMemo(() => handleConvert(amount, convertFrom), [amount, convertFrom])
+
+
+
+  return (
+    <>
+    <header>
+    <h1>Currency Converter</h1>
+    </header>
+    <form>
+      <label htmlFor="amount">Amount: </label>
+      <input id="amount" value={amount} onChange={((e) => setAmount(e.target.value))} type="number" />
+      <div className="select-container">
+      <div className="select-wrapper">
+      <label htmlFor="convert-from">Convert from: </label>
+        <select value={convertFrom} onChange={(e) => setConvertFrom(e.target.value)}>
+          <option>USD</option>
+          <option>EUR</option>
+          <option>GBP</option>
+          <option>JPY</option>
+        </select>
+        </div>
+        <div className="select-wrapper">
+          <label htmlFor="convert-to">Convert to:</label>
+          <select value={convertTo} id="convert-to" onChange={(e) => setConvertTo(e.target.value)}>
+            <option>USD</option>
+            <option>EUR</option>
+            <option>GBP</option>
+            <option>JPY</option>
+          </select>
+        </div>
+      </div>
+      </form>
+      <div className="results-container">
+        <p>Converting from {convertFrom} to {convertedCurrency[convertTo].toFixed(2)} {convertTo}</p>
+      </div>
+    </>
+  )
+}
+
+** end of index.jsx **
+

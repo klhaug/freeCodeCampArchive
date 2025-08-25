@@ -1,0 +1,201 @@
+** start of index.html **
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Tic-Tac-Toe</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.development.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.development.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.5/babel.min.js"></script>
+    <script
+      data-plugins="transform-modules-umd"
+      type="text/babel"
+      src="index.jsx"
+    ></script>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div id="root"></div>
+    <script
+      data-plugins="transform-modules-umd"
+      type="text/babel"
+      data-presets="react"
+      data-type="module"
+    >
+      import { Board } from './index.jsx';
+      ReactDOM.createRoot(document.getElementById('root')).render(<Board />);
+    </script>
+</body>
+
+</html>
+
+** end of index.html **
+
+** start of styles.css **
+
+main {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+gap: 8px;
+}
+
+section {
+  gap: 4px;
+  height: 300px;
+  width: 300px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr)
+}
+
+#reset {
+  width: 300px;
+  height: 44px;
+
+}
+
+** end of styles.css **
+
+** start of index.jsx **
+
+const { useState, useMemo } = React;
+
+  const checkWinningCombinations = (playerX, playerO) => {
+  
+    const winningCombinations = [
+    [1,2,3], 
+    [4,5,6], 
+    [7,8,9],
+    [1,4,7],
+    [2,5,8], 
+    [3,6,9],
+    [1,5,9],
+    [3,5,7]
+    ]
+
+    let returnMsg;
+
+    winningCombinations.forEach((combination) => {
+      if(playerX.toSorted().toString() === combination.toSorted().toString()){
+        returnMsg = "PlayerX Wins"
+      }
+    })
+  
+    winningCombinations.forEach((combination) => {
+      if(playerO.toSorted().toString() === combination.toSorted().toString()){
+        returnMsg = "PlayerO wins"
+      }
+    })
+    return returnMsg;
+  }
+
+
+export function Board() {
+  const [userTurn, setUserTurn] = useState(1);
+  const [playerX, setPlayerX] = useState([]);
+  const [playerO, setPlayerO] = useState([]);
+  const [isReset, setIsReset] = useState(false);
+  const [isWon, setIsWon] = useState(false);
+  
+  const whoIsWinning = useMemo(() => checkWinningCombinations(playerX, playerO),[playerX, playerO])
+
+  if(whoIsWinning !== undefined && isWon === false){
+    setIsWon(true);
+    alert("This is working")
+  }
+
+
+
+
+
+
+  const buttonArray = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+  const handleReset = () => {
+    setUserTurn(1);
+    setPlayerX([]);
+    setPlayerO([]);
+    setIsReset(true);
+    setIsWon(false);
+  }
+
+
+
+  // console.log(playerX, playerO);
+
+  return(
+    <>
+      <main>
+        <h1>The Tic-Tac Toe GAME!</h1>
+        <section>
+        {buttonArray.map((button) => {
+          return(
+            <Button
+              key={button}
+              id={button}
+              userTurn={userTurn} 
+              setUserTurn={setUserTurn}
+              player={userTurn % 2 !== 0 ? playerX : playerO}
+              setPlayer={userTurn % 2 !== 0 ? setPlayerX : setPlayerO} 
+              isReset={isReset}
+              setIsReset={setIsReset}
+              isWon={isWon}
+            />
+          )
+        })}
+        </section>
+        <button onClick={handleReset} id="reset">Restart the game</button>
+        {whoIsWinning}
+        {userTurn === 10 && whoIsWinning === undefined ? "It's a draw" : null}
+      </main>
+    </>
+  )
+
+}
+
+function Button({userTurn, setUserTurn, id, player, setPlayer, isReset, setIsReset, isWon}) {
+  const [isClicked, setIsClicked] = useState(false);
+  const [buttonValue, setButtonValue] = useState("")
+
+
+
+    
+  const handleOnClick = () => {
+     if(isReset){
+        setIsReset(false)
+      }
+      if(isClicked === false) {
+      setIsClicked(true);
+      setButtonValue(userTurn % 2 === 0 ? "O" : "X")
+      setPlayer([...player, id])
+      setUserTurn(userTurn + 1);
+   
+    }
+  }
+
+  if(isClicked && isReset) {
+    setIsClicked(false)
+    setButtonValue("")
+  }
+
+
+  return(
+    <>
+      <button 
+        disabled={userTurn === 10 || isWon ? true : false}
+        onClick={handleOnClick}
+        className="square">{buttonValue}
+      </button>
+    </>
+  )
+}
+
+
+** end of index.jsx **
+
